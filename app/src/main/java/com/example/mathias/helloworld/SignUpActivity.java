@@ -15,10 +15,10 @@ public class SignUpActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.layout_signup);
 
-        Button btnSignIn = (Button) findViewById(R.id.btnSignUp);
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
+        Button btnSignUp = (Button) findViewById(R.id.btnSignUp);
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

@@ -1,6 +1,7 @@
 package com.example.mathias.helloworld;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,11 +16,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnHello = (Button) findViewById(R.id.btnSignUp);
-        btnHello.setOnClickListener(new View.OnClickListener() {
+        Button btnSignUp = (Button) findViewById(R.id.btnSignUp);
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this,SignUpActivity.class);
+                startActivity(intent);
             }
         });
     }
