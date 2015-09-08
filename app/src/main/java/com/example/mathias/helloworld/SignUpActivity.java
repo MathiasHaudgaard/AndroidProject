@@ -17,8 +17,8 @@ public class SignUpActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnSignIn = (Button) findViewById(R.id.btnSignUp);
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
+        Button btnSignUp = (Button) findViewById(R.id.btnSignUp);
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
