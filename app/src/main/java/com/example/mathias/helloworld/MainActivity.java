@@ -1,12 +1,13 @@
 package com.example.mathias.helloworld;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
 
 public class MainActivity extends Activity {
     private Activity thisActivity = this;
@@ -19,7 +20,8 @@ public class MainActivity extends Activity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                       
+                Intent intent = new Intent(MainActivity.this,SignUpActivity.class);
+                startActivity(intent);
             }
         });
     }
