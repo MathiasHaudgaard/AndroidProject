@@ -35,19 +35,19 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/confirmPasswordBox"
+        android:id="@+id/ConfirmPasswordBox"
         android:layout_marginTop="35dp"
         android:layout_below="@+id/PasswordBox"
-        android:layout_alignStart="@+id/Adress" />
+        android:layout_alignStart="@+id/EmailBox" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPostalAddress"
         android:ems="10"
-        android:id="@+id/Adress"
+        android:id="@+id/EmailBox"
         android:layout_marginTop="35dp"
-        android:layout_below="@+id/confirmPasswordBox"
+        android:layout_below="@+id/ConfirmPasswordBox"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Password:"
-        android:id="@+id/passwordView"
+        android:id="@+id/PasswordView"
         android:layout_marginBottom="20dp"
         android:layout_alignBottom="@+id/PasswordBox"
         />
@@ -77,24 +77,24 @@
         android:id="@+id/ConfirmPasswordView"
         android:textAlignment="gravity"
         android:layout_marginBottom="20dp"
-        android:layout_alignBottom="@+id/confirmPasswordBox"
-        android:layout_toStartOf="@+id/confirmPasswordBox" />
+        android:layout_alignBottom="@+id/ConfirmPasswordBox"
+        android:layout_toStartOf="@+id/ConfirmPasswordBox" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email:"
-        android:id="@+id/EmailAdressView"
+        android:id="@+id/EmailView"
         android:layout_marginBottom="20dp"
-        android:layout_alignBottom="@+id/Adress"
-        android:layout_alignEnd="@+id/passwordView" />
+        android:layout_alignBottom="@+id/EmailBox"
+        android:layout_alignEnd="@+id/PasswordView" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Confirm"
-        android:id="@+id/ConfirmBox"
-        android:layout_below="@+id/Adress"
+        android:id="@+id/ConfirmButton"
+        android:layout_below="@+id/EmailBox"
         android:layout_marginTop="35dp"
         android:layout_centerHorizontal="true" />
 
