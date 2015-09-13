@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign in"
-        android:id="@+id/buttonSignIn"
+        android:id="@+id/btnSignIn"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="47dp"
         android:layout_marginBottom="49dp" />
