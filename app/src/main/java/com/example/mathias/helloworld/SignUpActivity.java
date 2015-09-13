@@ -39,13 +39,13 @@ public class SignUpActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_signup);
 
-        //Find input boxes:
+        //Find input boxes
         inputName = (EditText) findViewById(R.id.NameBox);
         inputPassword = (EditText) findViewById(R.id.PasswordBox);
         inputConfirmPassword = (EditText) findViewById(R.id.ConfirmPasswordBox);
         inputEmail = (EditText) findViewById(R.id.EmailBox);
 
-        //Find confirm button:
+        //Find confirm button and add functionality
         confirmButton = (Button) findViewById(R.id.ConfirmButton);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,8 +62,7 @@ public class SignUpActivity extends Activity {
                         password.equals(confirmPassword))
                 {
                     registerUser(name, password, email);
-                } else {
-                    //Show error message to user
+                } else {  //Show error message to user
                     Toast.makeText(getApplicationContext(),
                             "Enter your credentials first!",
                             Toast.LENGTH_LONG)
