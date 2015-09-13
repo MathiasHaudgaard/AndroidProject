@@ -55,6 +55,7 @@ public class SignUpActivity extends Activity {
                 String confirmPassword = inputConfirmPassword.getText().toString();
                 String email = inputEmail.getText().toString();
 
+                //If all the input is valid, send the info to the server
                 if (name.trim().length() > 0 &&
                         password.trim().length() > 0 &&
                         email.trim().length() > 0 &&
@@ -62,6 +63,7 @@ public class SignUpActivity extends Activity {
                 {
                     registerUser(name, password, email);
                 } else {
+                    //Show error message to user
                     Toast.makeText(getApplicationContext(),
                             "Enter your credentials first!",
                             Toast.LENGTH_LONG)
@@ -72,18 +74,18 @@ public class SignUpActivity extends Activity {
     }
 
     private boolean registerUser(final String name, final String password, final String email) {
+        //tag used for cancelling request
+        String req_tag = "req_register";
 
-        String req_reg_tag = "req_register";
-
-
-       StringRequest req = new StringRequest(Request.Method.POST,
+        StringRequest req = new StringRequest(Request.Method.POST,
                 AppConfig.URL_REGISTER,
                 new Response.Listener<String>() {
-                    @Override
+                    @Override  //If succesfull, should also log in user
                     public void onResponse(String response) {
                         Log.d("register", "Register response: " + response);
 
                         try {
+                            //Create JSONObject, easier to work with
                             JSONObject JResponse = new JSONObject(response);
                             boolean error = JResponse.getBoolean("error");
                             if (!error) {
@@ -96,14 +98,14 @@ public class SignUpActivity extends Activity {
                         }
                     }
                 }, new Response.ErrorListener() {
-            @Override
+            @Override //If not succesfull, show user error message
             public void onErrorResponse(VolleyError error) {
                 Log.e("register", "Register error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG)
                         .show();
             }
         })  {
-           @Override
+           @Override // Set all parameters for for server
             protected Map<String, String> getParams() {
                Map<String, String> params = new HashMap<String, String>();
                params.put("tag", "register");
@@ -114,6 +116,8 @@ public class SignUpActivity extends Activity {
            }
        };
 
+        //add tag to request
+        req.addMarker(req_tag);
         //Adding request to request queue
         NetworkSingleton.getInstance(getApplicationContext()).addToRequestQueue(req);
         return true;
