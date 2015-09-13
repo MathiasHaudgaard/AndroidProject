@@ -14,9 +14,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Mathias on 07-09-2015.
@@ -67,32 +71,24 @@ public class SignUpActivity extends Activity {
         });
     }
 
-    private boolean registerUser(String name, String password, String email) {
+    private boolean registerUser(final String name, final String password, final String email) {
 
         String req_reg_tag = "req_register";
-        JSONObject regJsonObj = new JSONObject();
-        try {
-            regJsonObj.put("tag", "register");
-            regJsonObj.put("name", name);
-            regJsonObj.put("password", password);
-            regJsonObj.put("email", email);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST,
+
+       StringRequest req = new StringRequest(Request.Method.POST,
                 AppConfig.URL_REGISTER,
-                regJsonObj,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<String>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("register", "Register response: " + response.toString());
+                    public void onResponse(String response) {
+                        Log.d("register", "Register response: " + response);
 
                         try {
-                            boolean error = response.getBoolean("error");
+                            JSONObject JResponse = new JSONObject(response);
+                            boolean error = JResponse.getBoolean("error");
                             if (!error) {
-                                String name = response.getString("name");
-                                String email = response.getString("email");
+                                String name = JResponse.getString("name");
+                                String email = JResponse.getString("email");
                             }
 
                         } catch (JSONException e) {
@@ -106,7 +102,19 @@ public class SignUpActivity extends Activity {
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG)
                         .show();
             }
-        });
+        })  {
+           @Override
+            protected Map<String, String> getParams() {
+               Map<String, String> params = new HashMap<String, String>();
+               params.put("tag", "register");
+               params.put("name", name);
+               params.put("password", password);
+               params.put("email", email);
+               return params;
+           }
+       };
+
+        //Adding request to request queue
         NetworkSingleton.getInstance(getApplicationContext()).addToRequestQueue(req);
         return true;
     }
