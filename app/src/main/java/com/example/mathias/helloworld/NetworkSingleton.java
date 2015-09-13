@@ -27,16 +27,19 @@ public class NetworkSingleton {
         return mInstance;
     }
 
+    //Returns the request queue for the entire application
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null)
             mRequestQueue = Volley.newRequestQueue(mCtx); //Creates RequestQueue with ApplicationContext
         return mRequestQueue;
     }
 
+    //Adds a given request to the request queue
     public <T> void addToRequestQueue(Request<T> request) {
         getRequestQueue().add(request);
     }
 
+    //Cancel all requests with a given tag.
     public void cancelAllRequests(Object tag) {
         if (mRequestQueue != null)
             mRequestQueue.cancelAll(tag);
