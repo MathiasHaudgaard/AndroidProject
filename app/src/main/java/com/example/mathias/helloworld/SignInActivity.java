@@ -1,6 +1,7 @@
 package com.example.mathias.helloworld;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -78,6 +79,10 @@ public class SignInActivity extends Activity {
                             if (!error) {
                                 String name = JResponse.getString("name");
                                 String email = JResponse.getString("email");
+                                UserStatic.setName(name);
+                                UserStatic.setEmail(email);
+                                Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+                                startActivity(intent);
                             }
 
                         } catch (JSONException e) {

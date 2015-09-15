@@ -1,6 +1,7 @@
 package com.example.mathias.helloworld;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -88,8 +89,13 @@ public class SignUpActivity extends Activity {
                             JSONObject JResponse = new JSONObject(response);
                             boolean error = JResponse.getBoolean("error");
                             if (!error) {
-                                String name = JResponse.getString("name");
-                                String email = JResponse.getString("email");
+                                JSONObject JUser = JResponse.getJSONObject("user");
+                                String name = JUser.getString("name");
+                                String email = JUser.getString("email");
+                                UserStatic.setName(name);
+                                UserStatic.setEmail(email);
+                                Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+                                startActivity(intent);
                             }
 
                         } catch (JSONException e) {
