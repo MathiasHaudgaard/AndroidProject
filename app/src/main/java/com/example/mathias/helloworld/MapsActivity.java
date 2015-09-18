@@ -83,19 +83,10 @@ public class MapsActivity extends FragmentActivity {
         String provider = locationManager.getBestProvider(criteria, true);
 
         // Get Current Location
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
-            return;
-        }
         Location myLocation = locationManager.getLastKnownLocation(provider);
         //Fejlen ovenover angiver om vi har faaet adgang til last know location.
         //Vi kan godt indfoere tjekket eller droppe det
+        //Den beholder vi simpelthen bare og dropper at checke efter noget.
 
         // set map type
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);

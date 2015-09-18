@@ -77,13 +77,22 @@ public class SignInActivity extends Activity {
                             JSONObject JResponse = new JSONObject(response);
                             boolean error = JResponse.getBoolean("error");
                             if (!error) {
-                                String name = JResponse.getString("name");
-                                String email = JResponse.getString("email");
+                                JSONObject JUser = JResponse.getJSONObject("user");
+                                String name = JUser.getString("name");
+                                String email = JUser.getString("email");
                                 UserStatic.setName(name);
                                 UserStatic.setEmail(email);
                                 Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
                                 startActivity(intent);
                             }
+                            //Shows an error if we couldn't login and prints the error message from server
+                            //TODO don't show the direct message but write a custom error message
+                            else{
+                                Log.e("login", "Login error: " + response);
+                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG)
+                                        .show();
+                            }
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -91,6 +100,7 @@ public class SignInActivity extends Activity {
                     }
                 }, new Response.ErrorListener() {
             @Override //If not succesfull, show user error message
+            //only does it, if there's a network error, not login error
             public void onErrorResponse(VolleyError error) {
                 Log.e("login", "Login error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG)
