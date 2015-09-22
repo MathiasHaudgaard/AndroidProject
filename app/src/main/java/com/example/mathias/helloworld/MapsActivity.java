@@ -1,6 +1,8 @@
 package com.example.mathias.helloworld;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -84,6 +86,7 @@ public class MapsActivity extends FragmentActivity {
         Location myLocation = locationManager.getLastKnownLocation(provider);
         //Fejlen ovenover angiver om vi har faaet adgang til last know location.
         //Vi kan godt indfoere tjekket eller droppe det
+        //Den beholder vi simpelthen bare og dropper at checke efter noget.
 
         // set map type
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);

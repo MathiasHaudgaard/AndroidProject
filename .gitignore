@@ -42,4 +42,6 @@ Thumbs.db
 .gradle
 build/
 
+#Fjerner appconfig
+app/src/main/java/com/example/mathias/helloworld/AppConfig.java
 
