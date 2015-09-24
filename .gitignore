@@ -37,15 +37,15 @@ Thumbs.db
 .idea/modules.xml
 .idea/scopes/scope_settings.xml
 .idea/vcs.xml
-
-# FUCK ALT ANDROID STUDIO
-.idea/
+*.iml
 .idea
+.idea/
+#.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+.gradle
+build/
 
 #.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
 .gradle
 build/
 
-#Fjerner appconfig
-app/src/main/java/com/example/mathias/helloworld/AppConfig.java
 
