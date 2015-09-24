@@ -93,13 +93,13 @@ public class MapsActivity extends FragmentActivity {
         //mMap.setMyLocationEnabled(true);
 
         // Create a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
+        //Criteria criteria = new Criteria();
 
         // Get the name of the best provider
-        String provider = getLocationManager().getBestProvider(criteria, true);
+        //String provider = getLocationManager().getBestProvider(criteria, true);
 
         // Get Current Location from the best provider
-        Location myLocation = getLocationManager().getLastKnownLocation(provider);
+        Location myLocation = getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER);
         //Fejlen ovenover angiver om vi har faaet adgang til last know location.
         //Vi kan godt indfoere tjekket eller droppe det
         //Den beholder vi simpelthen bare og dropper at checke efter noget.
