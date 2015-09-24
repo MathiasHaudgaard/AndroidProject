@@ -130,6 +130,7 @@ public class MapsActivity extends FragmentActivity {
         //Request continous updates
         requestUpdatesIfNeeded(LocationManager.GPS_PROVIDER);
 
+        updateServerPosition();
 
     }
 
