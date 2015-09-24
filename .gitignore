@@ -37,6 +37,12 @@ Thumbs.db
 .idea/modules.xml
 .idea/scopes/scope_settings.xml
 .idea/vcs.xml
+*.iml
+.idea
+.idea/
+#.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+.gradle
+build/
 
 #.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
 .gradle
