@@ -128,7 +128,7 @@ public class MapsActivity extends FragmentActivity {
         //mMap.animateCamera(yourLocation);
 
         //Request continous updates
-        requestUpdatesIfNeeded(provider);
+        requestUpdatesIfNeeded(LocationManager.GPS_PROVIDER);
 
 
     }
