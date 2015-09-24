@@ -99,10 +99,13 @@ public class MapsActivity extends FragmentActivity {
         //String provider = getLocationManager().getBestProvider(criteria, true);
 
         // Get Current Location from the best provider
-        Location myLocation = getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location myLocation = getLocationManager().getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         //Fejlen ovenover angiver om vi har faaet adgang til last know location.
         //Vi kan godt indfoere tjekket eller droppe det
         //Den beholder vi simpelthen bare og dropper at checke efter noget.
+
+        //tjekker om myLocation = null
+        if (myLocation == null) return;
 
         // set map type
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -128,7 +131,8 @@ public class MapsActivity extends FragmentActivity {
         //mMap.animateCamera(yourLocation);
 
         //Request continous updates
-        requestUpdatesIfNeeded(provider);
+        requestUpdatesIfNeeded(LocationManager.NETWORK_PROVIDER);
+        updateServerPosition();
 
 
     }
@@ -189,7 +193,7 @@ public class MapsActivity extends FragmentActivity {
                             //TODO don't show the direct message but write a custom error message
                             else{
                                 Log.e("position update", "position update error: " + response);
-                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG)
+                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT)
                                         .show();
                             }
                         } catch (JSONException e) {
@@ -201,7 +205,7 @@ public class MapsActivity extends FragmentActivity {
             //only does it, if there's a network error, not login error
             public void onErrorResponse(VolleyError error) {
                 Log.e("login", "Login error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG)
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT)
                         .show();
             }
         })  {
