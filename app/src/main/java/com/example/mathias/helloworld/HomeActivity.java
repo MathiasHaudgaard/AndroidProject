@@ -1,15 +1,16 @@
 package com.example.mathias.helloworld;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.Bundle;;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends AppCompatActivity {
 
     private String welcomeMessage = "Welcome: " + UserStatic.getName();
 
@@ -38,9 +39,9 @@ public class HomeActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
-        return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_home, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
