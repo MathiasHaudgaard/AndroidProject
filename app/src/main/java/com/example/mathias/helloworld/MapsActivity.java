@@ -1,10 +1,6 @@
 package com.example.mathias.helloworld;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,7 +13,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -128,7 +123,7 @@ public class MapsActivity extends FragmentActivity {
         //mMap.animateCamera(yourLocation);
 
         //Request continous updates
-        requestUpdatesIfNeeded(LocationManager.GPS_PROVIDER);
+        requestLocalUpdatesIfNeeded(LocationManager.GPS_PROVIDER);
 
         updateServerPosition();
 
@@ -143,7 +138,7 @@ public class MapsActivity extends FragmentActivity {
     }
 
     //Request continous updates
-    private void requestUpdatesIfNeeded(String provider){
+    private void requestLocalUpdatesIfNeeded(String provider){
 
         if (!mRequestingUpdates) {
             // create locationListener, will receive location updates
