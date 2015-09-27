@@ -17,7 +17,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher_web"
         android:logo="@drawable/home"
-        android:theme="@style/Base.Widget.AppCompat.ButtonBar"
+        android:theme="@style/AppTheme"
         >
         <activity
             android:name=".MainActivity"
@@ -37,7 +37,7 @@
 
         <activity
             android:name=".SignInActivity"
-            android:label="@string/title_activity_login"
+            android:label="login"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -48,8 +48,7 @@
             android:name=".HomeActivity"
             android:label="Home"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:logo="@drawable/home">
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mathias.helloworld.MainActivity" />
@@ -61,7 +60,7 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:label="Home" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mathias.helloworld.HomeActivity" />
