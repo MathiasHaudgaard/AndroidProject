@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -238,9 +239,20 @@ public class MapsActivity extends FragmentActivity {
                             JSONObject JResponse = new JSONObject(response);
                             boolean error = JResponse.getBoolean("error");
                             if (!error) {
-                                //add markers to map via loop
+                                //Delete current markers
                                 deleteAllMarkers();
-                                //addMapMarker();
+                                //Get array of positions
+                                JSONObject positions = JResponse.getJSONObject("positions");
+                                //add markers to map via loop
+                                for (int i = 0; i < positions.length(); i++) {
+                                    JSONObject position = positions.getJSONObject("position" + i);
+                                    String email = position.getString("email");
+                                    double latitude = position.getDouble("latitude");
+                                    double longitude = position.getDouble("longitude");
+                                    Log.d("latitude", "" + latitude);
+                                    Log.d("longitude", "" + longitude);
+                                    addMapMarker(latitude, longitude, email);
+                                }
                             }
                             else{
                                 Log.e("position update", "position update error: " + response);
