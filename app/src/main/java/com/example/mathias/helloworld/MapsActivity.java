@@ -34,7 +34,7 @@ public class MapsActivity extends FragmentActivity {
     private boolean mRequestingUpdates = false;
     private double mLatitude;
     private double mLongitude;
-    private int minUpdateTime = 0;
+    private int minUpdateTime = 1000;
     private int minUpdateDist = 0;
     private ArrayList<Marker> markerList = new ArrayList<Marker>();
 
