@@ -1,10 +1,6 @@
 package com.example.mathias.helloworld;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,16 +13,17 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +36,7 @@ public class MapsActivity extends FragmentActivity {
     private double mLongitude;
     private int minUpdateTime = 0;
     private int minUpdateDist = 0;
+    private ArrayList<Marker> markerList = new ArrayList<Marker>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,16 +122,19 @@ public class MapsActivity extends FragmentActivity {
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
         
         // Add marker showing your location
-        mMap.addMarker(new MarkerOptions().position(new LatLng(mLatitude, mLongitude)).title("Dig").snippet("Her er jeg!"));
-
+        addMapMarker(mLatitude, mLongitude, "Dig");
         // Function for zooming to current location
         //CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(myCoordinates, 12);
         //mMap.animateCamera(yourLocation);
 
         //Request continous updates
-        requestUpdatesIfNeeded(LocationManager.NETWORK_PROVIDER);
+        requestLocalUpdatesIfNeeded(LocationManager.NETWORK_PROVIDER);
+
+        //Update our position on server
         updateServerPosition();
 
+        //Get other users position from server
+        updateOtherUsers();
 
     }
 
@@ -145,8 +146,8 @@ public class MapsActivity extends FragmentActivity {
         return mLocationManager;
     }
 
-    //Request continous updates
-    private void requestUpdatesIfNeeded(String provider){
+    //Request continous local position updates
+    private void requestLocalUpdatesIfNeeded(String provider){
 
         if (!mRequestingUpdates) {
             // create locationListener, will receive location updates
@@ -156,7 +157,7 @@ public class MapsActivity extends FragmentActivity {
                     mLatitude = location.getLatitude();
                     mLongitude = location.getLongitude();
                     updateServerPosition();
-
+                    addMapMarker(mLatitude, mLongitude, "Dig");
                 }
                 @Override
                 public void onStatusChanged(String s, int i, Bundle bundle) {}
@@ -189,8 +190,7 @@ public class MapsActivity extends FragmentActivity {
                             JSONObject JResponse = new JSONObject(response);
                             boolean error = JResponse.getBoolean("error");
                             if (!error) {}
-                            //Shows an error if we couldn't login and prints the error message from server
-                            //TODO don't show the direct message but write a custom error message
+                                //what to use data for, if anything?
                             else{
                                 Log.e("position update", "position update error: " + response);
                                 Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT)
@@ -224,5 +224,69 @@ public class MapsActivity extends FragmentActivity {
         //Adding request to request queue
         NetworkSingleton.getInstance(getApplicationContext()).addToRequestQueue(req);
         return true;
+    }
+
+    private boolean updateOtherUsers() {
+        String req_tag = "req_get_position";
+
+        StringRequest req = new StringRequest(Request.Method.POST,
+                AppConfig.URL_LOGIN,
+                new Response.Listener<String>() {
+                    @Override  //If succesfull, should move to next screen
+                    public void onResponse(String response) {
+                        Log.d("others position update", " others position update response: " + response);
+
+                        try {
+                            //Create JSONObject, easier to work with
+                            JSONObject JResponse = new JSONObject(response);
+                            boolean error = JResponse.getBoolean("error");
+                            if (!error) {
+                                //add markers to map via loop
+                                deleteAllMarkers();
+                                //addMapMarker();
+                            }
+                            else{
+                                Log.e("position update", "position update error: " + response);
+                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override //If not succesfull, show user error message
+            //only does it, if there's a network error, not login error
+            public void onErrorResponse(VolleyError error) {
+                Log.e("login", "Login error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG)
+                        .show();
+            }
+        })  {
+            @Override // Set all parameters for server
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "getPosition");
+                return params;
+            }
+        };
+
+        req.addMarker(req_tag);
+        //Adding request to request queue
+        NetworkSingleton.getInstance(getApplicationContext()).addToRequestQueue(req);
+        return true;
+    }
+
+    private void addMapMarker(double latitude, double longitude, String title) {
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(latitude, longitude))
+                            .title(title).snippet("Position of: " + title));
+        markerList.add(marker);
+    }
+
+    private void deleteAllMarkers() {
+        for (Marker m : markerList) {
+            m.remove();
+        }
     }
 }
