@@ -9,14 +9,21 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textSize="16dp"
-        android:text="Find people View"/>
+        android:text="Find Treasure"/>
 
     <ImageView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/txtLabel"
         android:src="@mipmap/ic_people"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:id="@+id/picView"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/picView"
+        android:text="Enter Treasure Map"
+        android:id="@+id/ToMapButton"/>
 
 
 </RelativeLayout>
