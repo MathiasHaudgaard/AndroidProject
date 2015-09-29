@@ -155,7 +155,6 @@ public class MapsActivity extends FragmentActivity {
                     mLatitude = location.getLatitude();
                     mLongitude = location.getLongitude();
                     updateServerPosition();
-                    addMapMarker(mLatitude, mLongitude, "Dig");
                 }
                 @Override
                 public void onStatusChanged(String s, int i, Bundle bundle) {}
