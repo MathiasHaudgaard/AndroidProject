@@ -1,6 +1,22 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.mathias.helloworld.HomeActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
+    tools:context="com.example.mathias.helloworld.HomeActivity"
+    >
+
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="settings"
+        android:orderInCategory="100"
+        android:icon="@drawable/settingpic"
+        yourapp:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_treasureHistory"
+        android:title="Treasure History"
+        android:orderInCategory="100"
+        yourapp:showAsAction="ifRoom" />
+
 </menu>
