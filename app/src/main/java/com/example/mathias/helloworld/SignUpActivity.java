@@ -1,6 +1,7 @@
 package com.example.mathias.helloworld;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,8 @@ public class SignUpActivity extends Activity {
     private EditText inputEmail;
     private EditText inputPhoneNumber;
 
+    private String blueToothAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +66,7 @@ public class SignUpActivity extends Activity {
                         password.trim().length() > 0 &&
                         email.trim().length() > 0 &&
                         phoneNumber.trim().length() > 0 &&
-                        password.equals(confirmPassword))
-                {
+                        password.equals(confirmPassword)) {
                     registerUser(name, password, email, phoneNumber);
                 } else {  //Show error message to user
                     Toast.makeText(getApplicationContext(),
@@ -74,6 +76,11 @@ public class SignUpActivity extends Activity {
                 }
             }
         });
+
+        BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+        blueToothAddress = mBtAdapter.getAddress();
+        Log.d("bluetoothAdress", "" + blueToothAddress);
+
     }
 
     private boolean registerUser(final String name, final String password, final String email, final String phoneNumber) {
@@ -123,6 +130,7 @@ public class SignUpActivity extends Activity {
                params.put("password", password);
                params.put("email", email);
                params.put("phonenumber", phoneNumber);
+               params.put("bluetooth", blueToothAddress);
                return params;
            }
        };
