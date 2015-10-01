@@ -34,6 +34,7 @@ public class SignUpActivity extends Activity {
     private EditText inputPassword;
     private EditText inputConfirmPassword;
     private EditText inputEmail;
+    private EditText inputPhoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class SignUpActivity extends Activity {
         inputPassword = (EditText) findViewById(R.id.PasswordBox);
         inputConfirmPassword = (EditText) findViewById(R.id.ConfirmPasswordBox);
         inputEmail = (EditText) findViewById(R.id.EmailBox);
-
+        inputPhoneNumber = (EditText) findViewById(R.id.PhoneNumberBox);
         //Find confirm button and add functionality
         confirmButton = (Button) findViewById(R.id.ConfirmButton);
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -55,14 +56,16 @@ public class SignUpActivity extends Activity {
                 String password = inputPassword.getText().toString();
                 String confirmPassword = inputConfirmPassword.getText().toString();
                 String email = inputEmail.getText().toString();
+                String phoneNumber = inputPhoneNumber.getText().toString();
 
                 //If all the input is valid, send the info to the server
                 if (name.trim().length() > 0 &&
                         password.trim().length() > 0 &&
                         email.trim().length() > 0 &&
+                        phoneNumber.trim().length() > 0 &&
                         password.equals(confirmPassword))
                 {
-                    registerUser(name, password, email);
+                    registerUser(name, password, email, phoneNumber);
                 } else {  //Show error message to user
                     Toast.makeText(getApplicationContext(),
                             "Enter your credentials first!",
@@ -73,7 +76,7 @@ public class SignUpActivity extends Activity {
         });
     }
 
-    private boolean registerUser(final String name, final String password, final String email) {
+    private boolean registerUser(final String name, final String password, final String email, final String phoneNumber) {
         //tag used for cancelling request
         String req_tag = "req_register";
 
@@ -92,8 +95,10 @@ public class SignUpActivity extends Activity {
                                 JSONObject JUser = JResponse.getJSONObject("user");
                                 String name = JUser.getString("name");
                                 String email = JUser.getString("email");
+                                String phoneNumber = JUser.getString("phonenumber");
                                 UserStatic.setName(name);
                                 UserStatic.setEmail(email);
+                                UserStatic.setPhoneNumber(phoneNumber);
                                 Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
                                 startActivity(intent);
                             }
@@ -117,6 +122,7 @@ public class SignUpActivity extends Activity {
                params.put("name", name);
                params.put("password", password);
                params.put("email", email);
+               params.put("phonenumber", phoneNumber);
                return params;
            }
        };
