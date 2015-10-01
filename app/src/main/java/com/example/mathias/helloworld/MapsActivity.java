@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -88,7 +89,7 @@ public class MapsActivity extends FragmentActivity {
         //Dummy marker?
 
         // Enable MyLocation Layer of Google Map
-        //mMap.setMyLocationEnabled(true);
+        mMap.setMyLocationEnabled(true);
 
         // Create a criteria object to retrieve provider
         //Criteria criteria = new Criteria();
@@ -122,7 +123,7 @@ public class MapsActivity extends FragmentActivity {
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
         
         // Add marker showing your location
-        addMapMarker(mLatitude, mLongitude, "Dig");
+        //addMapMarker(mLatitude, mLongitude, "Dig");
         // Function for zooming to current location
         //CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(myCoordinates, 12);
         //mMap.animateCamera(yourLocation);
@@ -157,7 +158,7 @@ public class MapsActivity extends FragmentActivity {
                     mLatitude = location.getLatitude();
                     mLongitude = location.getLongitude();
                     updateServerPosition();
-                    addMapMarker(mLatitude, mLongitude, "Dig");
+                    updateOtherUsers();
                 }
                 @Override
                 public void onStatusChanged(String s, int i, Bundle bundle) {}
@@ -241,9 +242,20 @@ public class MapsActivity extends FragmentActivity {
                             JSONObject JResponse = new JSONObject(response);
                             boolean error = JResponse.getBoolean("error");
                             if (!error) {
-                                //add markers to map via loop
+                                //Delete current markers
                                 deleteAllMarkers();
-                                //addMapMarker();
+                                //Get array of positions
+                                JSONObject positions = JResponse.getJSONObject("positions");
+                                //add markers to map via loop
+                                for (int i = 0; i < positions.length(); i++) {
+                                    JSONObject position = positions.getJSONObject("position" + i);
+                                    String email = position.getString("email");
+                                    double latitude = position.getDouble("latitude");
+                                    double longitude = position.getDouble("longitude");
+                                    Log.d("latitude", "" + latitude);
+                                    Log.d("longitude", "" + longitude);
+                                    addMapMarker(latitude, longitude, email);
+                                }
                             }
                             else{
                                 Log.e("position update", "position update error: " + response);

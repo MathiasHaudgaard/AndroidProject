@@ -12,14 +12,20 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+
+    <uses-sdk android:minSdkVersion="11"/>
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:icon="@drawable/ic_launcher_web"
+        android:logo="@drawable/home"
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".MainActivity"
-            android:label="TreasureHunting" >
+            android:label="TreasureHunting"
+            >
 "
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,18 +37,21 @@
             android:name=".SignUpActivity"
             android:label="SignUpPage" >
         </activity>
+
         <activity
             android:name=".SignInActivity"
-            android:label="@string/title_activity_login"
+            android:label="login"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mathias.helloworld.MainActivity" />
         </activity>
+
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home"
-            android:parentActivityName=".MainActivity" >
+            android:label="Home"
+            android:parentActivityName=".MainActivity"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mathias.helloworld.MainActivity" />
@@ -54,11 +63,12 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:label="Home" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mathias.helloworld.HomeActivity" />
         </activity>
+
         <!-- Added new api key under here -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
