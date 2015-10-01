@@ -21,7 +21,7 @@ public class PagesFragment extends Fragment {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             }
         }
-    }
+    };
 
 
 	public PagesFragment(){}
