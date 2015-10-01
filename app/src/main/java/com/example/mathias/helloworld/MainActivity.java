@@ -22,6 +22,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Button btnSignUp = (Button) findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +40,7 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
-
+        /*
         Button btnToMap = (Button) findViewById(R.id.ToMapButton2);
         btnToMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +49,7 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
-
+        */
         BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if (mBtAdapter == null) {
@@ -72,7 +73,8 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        // Removed getMenuInflater to remove the settings in the menu bar
         return true;
     }
 

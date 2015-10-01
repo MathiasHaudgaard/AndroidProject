@@ -30,5 +30,7 @@
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
+    <string name="SignUpButtonName">Sign up</string>
+    <string name="SignInButtonName">Sign in</string>
 
 </resources>
