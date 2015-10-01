@@ -1,4 +1,4 @@
-package com.example.mathias.helloworld;
+package com.example.mathias.helloworld.HomeActivity;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -6,15 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class CommunityFragment extends Fragment {
+import com.example.mathias.helloworld.R;
+
+public class WhatsHotFragment extends Fragment {
 	
-	public CommunityFragment(){}
+	public WhatsHotFragment(){}
+	
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
  
-        View rootView = inflater.inflate(R.layout.fragment_community, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_whats_hot, container, false);
          
         return rootView;
     }

@@ -45,7 +45,7 @@
         </activity>
 
         <activity
-            android:name=".HomeActivity"
+            android:name=".HomeActivity.HomeActivity"
             android:label="Home"
             android:parentActivityName=".MainActivity"
             >
@@ -63,7 +63,7 @@
             android:label="Home" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mathias.helloworld.HomeActivity" />
+                android:value=".HomeActivity.HomeActivity" />
         </activity>
 
         <!-- Added new api key under here -->
