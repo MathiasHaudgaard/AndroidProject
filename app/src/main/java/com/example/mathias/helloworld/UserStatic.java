@@ -6,6 +6,7 @@ package com.example.mathias.helloworld;
 public class UserStatic {
     private static String name = "default";
     private static String email = "default";
+    private static String phoneNumber = "default";
 
     public static void setEmail(String email) {
         UserStatic.email = email;
@@ -15,6 +16,10 @@ public class UserStatic {
         UserStatic.name = name;
     }
 
+    public static void setPhoneNumber(String phoneNumber) {
+        UserStatic.phoneNumber = phoneNumber;
+    }
+
     public static String getName() {
         return name;
     }
@@ -22,5 +27,11 @@ public class UserStatic {
     public static String getEmail() {
         return email;
     }
+
+    public static String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+
 
 }
