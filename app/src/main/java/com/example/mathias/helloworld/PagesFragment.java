@@ -25,7 +25,6 @@ public class PagesFragment extends Fragment {
     private BroadcastReceiver mReceiver;
 
 
-
     // Create a BroadcastReceiver for ACTION_FOUND
 
 

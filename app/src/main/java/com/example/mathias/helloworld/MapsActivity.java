@@ -103,6 +103,9 @@ public class MapsActivity extends FragmentActivity {
         //Vi kan godt indfoere tjekket eller droppe det
         //Den beholder vi simpelthen bare og dropper at checke efter noget.
 
+        //tjekker om myLocation = null
+        if (myLocation == null) return;
+
         // set map type
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
@@ -191,7 +194,7 @@ public class MapsActivity extends FragmentActivity {
                                 //what to use data for, if anything?
                             else{
                                 Log.e("position update", "position update error: " + response);
-                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG)
+                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT)
                                         .show();
                             }
                         } catch (JSONException e) {
@@ -203,7 +206,7 @@ public class MapsActivity extends FragmentActivity {
             //only does it, if there's a network error, not login error
             public void onErrorResponse(VolleyError error) {
                 Log.e("login", "Login error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG)
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT)
                         .show();
             }
         })  {
