@@ -38,6 +38,7 @@ public class MapsActivity extends FragmentActivity {
     private int minUpdateTime = 1000;
     private int minUpdateDist = 0;
     private ArrayList<Marker> markerList = new ArrayList<Marker>();
+    private int activateBluetoothRange = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,6 +257,17 @@ public class MapsActivity extends FragmentActivity {
                                     Log.d("longitude", "" + longitude);
                                     addMapMarker(latitude, longitude, email);
                                 }
+
+                                if(existsMarkersWithinRange()){
+                                    Context context = getApplicationContext();
+                                    CharSequence text = "Someone is in range!! Maybe you can steal treasure!";
+                                    int duration = Toast.LENGTH_SHORT;
+
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    toast.show();
+                                }
+
+
                             }
                             else{
                                 Log.e("position update", "position update error: " + response);
@@ -300,5 +312,18 @@ public class MapsActivity extends FragmentActivity {
         for (Marker m : markerList) {
             m.remove();
         }
+    }
+
+    public Boolean existsMarkersWithinRange(){
+        for(Marker m: markerList){
+            float[] result = new float[1];
+            double latitude = m.getPosition().latitude;
+            double longitude = m.getPosition().longitude;
+            Location.distanceBetween(mLatitude, mLongitude, latitude, longitude, result);
+            if(activateBluetoothRange < Math.abs(result[0])) {
+                return true;
+            }
+        }
+        return false;
     }
 }
