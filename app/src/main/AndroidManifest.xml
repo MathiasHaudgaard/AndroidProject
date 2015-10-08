@@ -67,7 +67,7 @@
             android:label="Home" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mathias.helloworld.HomeActivity" />
+                android:value=".HomeActivity" />
         </activity>
 
         <!-- Added new api key under here -->

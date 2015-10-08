@@ -34,6 +34,7 @@ import java.util.Objects;
 public class PagesFragment extends Fragment {
 
 
+
     private ListView listView;
     private ArrayList<String> item;
     private ArrayAdapter<String> mArrayAdapter;
@@ -46,6 +47,17 @@ public class PagesFragment extends Fragment {
     // Register the BroadcastReceiver
     /*IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
     registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy*/
+
+
+	private final BroadcastReceiver mReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(BluetoothDevice.ACTION_FOUND.equals(action)){
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            }
+        }
+    };
 
 
 

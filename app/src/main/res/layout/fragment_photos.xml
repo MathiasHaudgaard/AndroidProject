@@ -4,19 +4,22 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txtLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="16dp"
-        android:text="photos View"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Preferences"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
-    <ImageView android:layout_width="wrap_content"
+    <CheckBox
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtLabel"
-        android:src="@mipmap/ic_photos"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:text="Notifications"
+        android:id="@+id/notificationsCheckBox"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="66dp" />
 
 
 </RelativeLayout>
