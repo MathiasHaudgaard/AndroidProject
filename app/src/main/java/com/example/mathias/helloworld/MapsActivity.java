@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -38,6 +39,7 @@ public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private LocationManager mLocationManager; // Provides information on user location
+    private LocationListener mLocationListener;
     private boolean mRequestingUpdates = false;
     private double mLatitude;
     private double mLongitude;
@@ -48,12 +50,14 @@ public class MapsActivity extends FragmentActivity {
     private NotificationManager mNotificationManager;
     private int notificationId = 1;
     private int TOAST_OPTION = 0;
-    private int NOTiFICATION_OPTION = 1;
+    private int NOTIFICATION_OPTION = 1;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        settings = getSharedPreferences(UserStatic.getEmail(), 0);
         setUpMapIfNeeded();
     }
 
@@ -77,9 +81,13 @@ public class MapsActivity extends FragmentActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        Log.d("on resume", "resuming");
+        if (!mRequestingUpdates) {
+            mLocationManager.removeUpdates(mLocationListener);
+        }
         setUpMapIfNeeded();
+        super.onStart();
     }
 
     /**
@@ -163,6 +171,7 @@ public class MapsActivity extends FragmentActivity {
         //mMap.animateCamera(yourLocation);
 
         //Request continous updates
+        mRequestingUpdates = false;
         requestLocalUpdatesIfNeeded(LocationManager.NETWORK_PROVIDER);
 
         //Update our position on server
@@ -186,9 +195,10 @@ public class MapsActivity extends FragmentActivity {
 
         if (!mRequestingUpdates) {
             // create locationListener, will receive location updates
-            LocationListener locationListener = new LocationListener() {
+            mLocationListener = new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
+                    Log.d("Location", "changed");
                     mLatitude = location.getLatitude();
                     mLongitude = location.getLongitude();
                     updateServerPosition();
@@ -203,7 +213,7 @@ public class MapsActivity extends FragmentActivity {
             };
 
             //start receiving continous position updates
-            mLocationManager.requestLocationUpdates(provider, minUpdateTime, minUpdateDist, locationListener);
+            mLocationManager.requestLocationUpdates(provider, minUpdateTime, minUpdateDist, mLocationListener);
 
             mRequestingUpdates = true;
         }
@@ -295,13 +305,17 @@ public class MapsActivity extends FragmentActivity {
                                     Context context = getApplicationContext();
                                     CharSequence text = "Someone is in range!! Maybe you can steal treasure!";
                                     int duration = Toast.LENGTH_SHORT;
-                                    if(popupOption == TOAST_OPTION){
-                                    //Toast toast = Toast.makeText(context, text, duration);
-                                    //toast.show();
-                                        displayNotification();
-                                    } else if(popupOption == NOTiFICATION_OPTION){
-                                        displayNotification();
+                                    Log.d("notifications:", String.valueOf(settings.getBoolean("notifications", false)));
+                                    if (settings.getBoolean("notifications", false))
+                                    {
+                                        if(popupOption == TOAST_OPTION){
+                                            Toast toast = Toast.makeText(context, text, duration);
+                                            toast.show();
+                                        } else if(popupOption == NOTIFICATION_OPTION){
+                                            displayNotification();
+                                        }
                                     }
+
                                 }
 
 
@@ -365,8 +379,38 @@ public class MapsActivity extends FragmentActivity {
         return false;
     }
 
-    protected void onPause(){
-        //updateOtherUsers(NOTiFICATION_OPTION);
-        super.onPause();
+    protected void onStop(){
+
+        Log.d("onPause", "Paused ");
+        mLocationManager.removeUpdates(mLocationListener);
+        mRequestingUpdates = false;
+        mLocationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                mLatitude = location.getLatitude();
+                mLongitude = location.getLongitude();
+                updateServerPosition();
+                updateOtherUsers(NOTIFICATION_OPTION);
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minUpdateTime, minUpdateDist, mLocationListener);
+        super.onStop();
     }
+
 }
