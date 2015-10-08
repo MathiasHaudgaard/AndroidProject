@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PagesFragment extends Fragment {
+<<<<<<< HEAD:app/src/main/java/com/example/mathias/helloworld/PagesFragment.java
 
 
     private ListView listView;
@@ -44,6 +45,17 @@ public class PagesFragment extends Fragment {
     /*IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
     registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy*/
 
+=======
+	private final BroadcastReceiver mReciever = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(BluetoothDevice.ACTION_FOUND.equals(action)){
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            }
+        }
+    };
+>>>>>>> 3811e1cd428b803c2f87f78a772d8212a97c0bda:app/src/main/java/com/example/mathias/helloworld/HomeActivity/PagesFragment.java
 
 
 	public PagesFragment(){}

@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.mathias.helloworld.MapsActivity;
+import com.example.mathias.helloworld.R;
+
 public class FindTreasureFragment extends Fragment {
 	
 	public FindTreasureFragment(){}

@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
@@ -62,8 +61,8 @@ public class SignUpActivity extends Activity {
                 String phoneNumber = inputPhoneNumber.getText().toString();
 
                 //If all the input is valid, send the info to the server
-                if (name.trim().length() > 0 &&
-                        password.trim().length() > 0 &&
+                /*if (name.trim().length() > 0 &&
+                        password.trim().length() > 8 &&
                         email.trim().length() > 0 &&
                         phoneNumber.trim().length() > 0 &&
                         password.equals(confirmPassword)) {
@@ -73,7 +72,36 @@ public class SignUpActivity extends Activity {
                             "Enter your credentials first!",
                             Toast.LENGTH_LONG)
                             .show();
+                }*/
+                if (!(name.trim().length() > 1)) {
+                    Toast.makeText(getApplicationContext(),
+                            "Name must consist of at least 2 characters",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                } else if (!(password.trim().length() >= 8)) {
+                    Toast.makeText(getApplicationContext(),
+                            "Password should be at least 8 characters long",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                } else if (!password.equals(confirmPassword)){
+                    Toast.makeText(getApplicationContext(),
+                            "Passwords must match",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                } else if (!isValidEmailAddress(email)) {
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter a valid email address",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }else if (!(phoneNumber.trim().length() == 8 && isNumeric(phoneNumber))) {
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter a valid phone number",
+                            Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    registerUser(name, password, email, phoneNumber);
                 }
+
             }
         });
 
@@ -162,6 +190,18 @@ public class SignUpActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    //Credit Pujan Srivastava on stack overflow
+    public boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+    //Credit CraigTP on stack overflow
+    public static boolean isNumeric(String str)
+    {
+        return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
     }
 }
 

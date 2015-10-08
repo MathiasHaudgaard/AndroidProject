@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import com.example.mathias.helloworld.R;
+
 public class PhotosFragment extends Fragment {
 
     SharedPreferences settings;

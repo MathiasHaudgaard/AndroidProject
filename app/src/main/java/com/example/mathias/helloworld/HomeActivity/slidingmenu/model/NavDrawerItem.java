@@ -1,4 +1,4 @@
-package com.example.mathias.helloworld.slidingmenu.model;
+package com.example.mathias.helloworld.HomeActivity.slidingmenu.model;
 
 public class NavDrawerItem {
 	
