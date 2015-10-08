@@ -7,6 +7,7 @@ public class UserStatic {
     private static String name = "default";
     private static String email = "default";
     private static String phoneNumber = "default";
+    private static String MACAdress = "default";
 
     public static void setEmail(String email) {
         UserStatic.email = email;
@@ -31,6 +32,10 @@ public class UserStatic {
     public static String getPhoneNumber() {
         return phoneNumber;
     }
+
+    public static String getMACAdress(){return MACAdress;}
+
+    public static void setMACAdress(String macAdress){MACAdress = macAdress;}
 
 
 

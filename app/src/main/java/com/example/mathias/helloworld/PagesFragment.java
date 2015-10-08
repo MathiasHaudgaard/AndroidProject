@@ -8,10 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.transition.Visibility;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class PagesFragment extends Fragment {
 
@@ -78,10 +81,24 @@ public class PagesFragment extends Fragment {
         mArrayAdapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_list_item_1, item);
         listView = (ListView) rootView.findViewById(R.id.listView);
         listView.setAdapter(mArrayAdapter);
- 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                String index = (String) parent.getItemAtPosition(position);
+                String MACAdress = "default";
+                for (int i = 0; i < index.length(); i++) {
+                    if (index.charAt(i) == ':') {
+                        if (index.charAt(i + 1) == ':') {
+                            MACAdress = index.substring(i + 2, index.length());
+                        }
+                    }
+                }
+                Log.d("lol", MACAdress);
+                takeTreasureByBluetooth(MACAdress);
+            }
+        });
 
-         
-        return rootView;
+
+            return rootView;
     }
 
     public Boolean addUserByBluetooth(final String adress){
@@ -100,11 +117,9 @@ public class PagesFragment extends Fragment {
                             JSONObject JResponse = new JSONObject(response);
                             boolean error = JResponse.getBoolean("error");
                             if (!error) {
-                                //TODO: make server part where we have to join treasure and users table to get treasure in array.
                                 String name = JResponse.getString("name");
                                 int treasures = JResponse.getInt("treasure");
-                                mArrayAdapter.add(name + " " + treasures);
-
+                                mArrayAdapter.add(name + " " + treasures + "::" + adress );
                             }
                             //Shows an error if we couldn't login and prints the error message from server
                             //TODO don't show the direct message but write a custom error message
@@ -133,6 +148,72 @@ public class PagesFragment extends Fragment {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "getBluetoothName");
                 params.put("bluetoothMAC", adress);
+                return params;
+            }
+        };
+
+        //add tag to request
+        req.addMarker(req_tag);
+        //Adding request to request queue
+        NetworkSingleton.getInstance(PagesFragment.this.getActivity().getApplicationContext()).addToRequestQueue(req);
+        return true;
+    }
+
+    public Boolean takeTreasureByBluetooth(final String adress){
+
+        String req_tag = "req_bluetooth";
+
+        StringRequest req = new StringRequest(Request.Method.POST,
+                AppConfig.URL_LOGIN,
+                new Response.Listener<String>() {
+                    @Override  //If succesfull, should move to next screen
+                    public void onResponse(String response) {
+                        Log.d("Bluetooth", "Bluetooth response: " + response);
+
+                        try {
+                            //Create JSONObject, easier to work with
+                            JSONObject JResponse = new JSONObject(response);
+                            boolean error = JResponse.getBoolean("error");
+                            if (!error) {
+                                JSONObject JTreasure = new JSONObject("treasure");
+                                int newTreasure = JTreasure.getInt("treasure");
+
+                                Context context = getActivity().getApplicationContext();
+                                CharSequence text = "Congratz Matey! You now have " + newTreasure;
+                                int duration = Toast.LENGTH_SHORT;
+
+                                Toast toast = Toast.makeText(context, text, duration);
+                                toast.show();
+
+                            }
+                            //Shows an error if we couldn't login and prints the error message from server
+                            //TODO don't show the direct message but write a custom error message
+                            else{
+                                Log.e("Bluetooth", "Bluetooth error: " + response);
+                                Toast.makeText(PagesFragment.this.getActivity().getApplicationContext(), response, Toast.LENGTH_LONG)
+                                        .show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override //If not succesfull, show user error message
+            //only does it, if there's a network error, not login error
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Bluetooth", "Bluetooth error: " + error.getMessage());
+                Toast.makeText(PagesFragment.this.getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG)
+                        .show();
+            }
+        })  {
+            @Override // Set all parameters for for server
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "takeTreasure");
+                params.put("hapsedFrom", adress);
+                params.put("hapser",UserStatic.getMACAdress());
                 return params;
             }
         };

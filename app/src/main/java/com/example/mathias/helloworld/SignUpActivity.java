@@ -106,6 +106,7 @@ public class SignUpActivity extends Activity {
                                 UserStatic.setName(name);
                                 UserStatic.setEmail(email);
                                 UserStatic.setPhoneNumber(phoneNumber);
+                                UserStatic.setMACAdress(blueToothAddress);
                                 Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
                                 startActivity(intent);
                             }

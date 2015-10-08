@@ -180,7 +180,7 @@ public class HomeActivity extends Activity {
                 fragment = new PagesFragment();
                 break;
             case 5:
-                fragment = new WhatsHotFragment();
+                fragment = new HighscoreFragment();
                 break;
 
             default:

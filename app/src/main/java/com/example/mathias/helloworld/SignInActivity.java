@@ -1,6 +1,7 @@
 package com.example.mathias.helloworld;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,11 +29,15 @@ public class SignInActivity extends Activity {
     private Button confirmButton;
     private EditText inputPassword;
     private EditText inputEmail;
+    private String blueToothAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+        blueToothAddress = mBtAdapter.getAddress();
+
 
         //Find input boxes
         inputPassword = (EditText) findViewById(R.id.PasswordBox);
@@ -82,6 +87,7 @@ public class SignInActivity extends Activity {
                                 String email = JUser.getString("email");
                                 UserStatic.setName(name);
                                 UserStatic.setEmail(email);
+                                UserStatic.setMACAdress(blueToothAddress);
                                 Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
                                 startActivity(intent);
                             }
