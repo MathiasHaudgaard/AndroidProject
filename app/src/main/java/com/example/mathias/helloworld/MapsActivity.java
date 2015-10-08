@@ -44,7 +44,7 @@ public class MapsActivity extends FragmentActivity {
     private int minUpdateTime = 1000;
     private int minUpdateDist = 0;
     private ArrayList<Marker> markerList = new ArrayList<Marker>();
-    private int activateBluetoothRange = 100;
+    private int activateBluetoothRange = 50;
     private NotificationManager mNotificationManager;
     private int notificationId = 1;
     private int TOAST_OPTION = 0;
@@ -296,8 +296,9 @@ public class MapsActivity extends FragmentActivity {
                                     CharSequence text = "Someone is in range!! Maybe you can steal treasure!";
                                     int duration = Toast.LENGTH_SHORT;
                                     if(popupOption == TOAST_OPTION){
-                                    Toast toast = Toast.makeText(context, text, duration);
-                                    toast.show();
+                                    //Toast toast = Toast.makeText(context, text, duration);
+                                    //toast.show();
+                                        displayNotification();
                                     } else if(popupOption == NOTiFICATION_OPTION){
                                         displayNotification();
                                     }
@@ -327,6 +328,7 @@ public class MapsActivity extends FragmentActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "getPosition");
+                params.put("email", UserStatic.getEmail());
                 return params;
             }
         };
@@ -356,7 +358,7 @@ public class MapsActivity extends FragmentActivity {
             double latitude = m.getPosition().latitude;
             double longitude = m.getPosition().longitude;
             Location.distanceBetween(mLatitude, mLongitude, latitude, longitude, result);
-            if(activateBluetoothRange < Math.abs(result[0])) {
+            if(activateBluetoothRange > Math.abs(result[0])) {
                 return true;
             }
         }
@@ -364,7 +366,7 @@ public class MapsActivity extends FragmentActivity {
     }
 
     protected void onPause(){
-        updateOtherUsers(NOTiFICATION_OPTION);
+        //updateOtherUsers(NOTiFICATION_OPTION);
         super.onPause();
     }
 }
