@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.transition.Visibility;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +28,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class PagesFragment extends Fragment {
 
@@ -48,20 +46,7 @@ public class PagesFragment extends Fragment {
     /*IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
     registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy*/
 
-
-	private final BroadcastReceiver mReciever = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if(BluetoothDevice.ACTION_FOUND.equals(action)){
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-            }
-        }
-    };
-
-
-
-	public PagesFragment(){}
+    public PagesFragment(){}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,6 +67,7 @@ public class PagesFragment extends Fragment {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     // Add the name and address to an array adapter to show in a ListView
                     addUserByBluetooth(device.getAddress());
+                    Log.d("Device",device.getAddress());
 
                 }
             }
@@ -113,7 +99,7 @@ public class PagesFragment extends Fragment {
             return rootView;
     }
 
-    public Boolean addUserByBluetooth(final String adress){
+    public Boolean addUserByBluetooth(final String address){
 
         String req_tag = "req_bluetooth";
 
@@ -131,14 +117,13 @@ public class PagesFragment extends Fragment {
                             if (!error) {
                                 String name = JResponse.getString("name");
                                 int treasures = JResponse.getInt("treasure");
-                                mArrayAdapter.add(name + " " + treasures + "::" + adress );
+                                mArrayAdapter.add(name + " " + treasures + "::" + address);
                             }
                             //Shows an error if we couldn't login and prints the error message from server
                             //TODO don't show the direct message but write a custom error message
                             else{
                                 Log.e("Bluetooth", "Bluetooth error: " + response);
-                                Toast.makeText(PagesFragment.this.getActivity().getApplicationContext(), response, Toast.LENGTH_LONG)
-                                        .show();
+
                             }
 
 
@@ -159,7 +144,7 @@ public class PagesFragment extends Fragment {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("tag", "getBluetoothName");
-                params.put("bluetoothMAC", adress);
+                params.put("bluetoothMAC", address);
                 return params;
             }
         };
@@ -187,11 +172,8 @@ public class PagesFragment extends Fragment {
                             JSONObject JResponse = new JSONObject(response);
                             boolean error = JResponse.getBoolean("error");
                             if (!error) {
-                                JSONObject JTreasure = new JSONObject("treasure");
-                                int newTreasure = JTreasure.getInt("treasure");
-
                                 Context context = getActivity().getApplicationContext();
-                                CharSequence text = "Congratz Matey! You now have " + newTreasure;
+                                CharSequence text = "Congratz Matey! You have taken one of the treasures!";
                                 int duration = Toast.LENGTH_SHORT;
 
                                 Toast toast = Toast.makeText(context, text, duration);
