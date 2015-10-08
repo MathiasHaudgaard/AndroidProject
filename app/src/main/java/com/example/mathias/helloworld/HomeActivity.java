@@ -1,7 +1,7 @@
 package com.example.mathias.helloworld;
 
-import com.example.mathias.helloworld.HomeActivity.slidingmenu.adapter.NavDrawerListAdapter;
-import com.example.mathias.helloworld.HomeActivity.slidingmenu.model.NavDrawerItem;
+import com.example.mathias.helloworld.slidingmenu.adapter.NavDrawerListAdapter;
+import com.example.mathias.helloworld.slidingmenu.model.NavDrawerItem;
 
 import java.util.ArrayList;
 
