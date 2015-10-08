@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
-import com.example.mathias.helloworld.R;
-
-public class PhotosFragment extends Fragment {
+public class OptionsFragment extends Fragment {
 
     SharedPreferences settings;
     CheckBox notificationCheckBox;
@@ -19,13 +17,13 @@ public class PhotosFragment extends Fragment {
 
     boolean bNotifications;
 
-	public PhotosFragment(){}
+	public OptionsFragment(){}
 
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
  
-        View rootView = inflater.inflate(R.layout.fragment_photos, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_options, container, false);
 
         settings = getActivity().getSharedPreferences(UserStatic.getEmail(), 0);
         editor = settings.edit();

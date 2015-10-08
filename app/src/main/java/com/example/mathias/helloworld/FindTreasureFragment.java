@@ -7,9 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
-import com.example.mathias.helloworld.MapsActivity;
-import com.example.mathias.helloworld.R;
 
 public class FindTreasureFragment extends Fragment {
 	
@@ -20,7 +19,7 @@ public class FindTreasureFragment extends Fragment {
             Bundle savedInstanceState) {
  
         View rootView = inflater.inflate(R.layout.fragment_find_treasure, container, false);
-        Button btnToMap = (Button) rootView.findViewById(R.id.ToMapButton);
+        ImageButton btnToMap = (ImageButton) rootView.findViewById(R.id.ToMapButton);
         btnToMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
