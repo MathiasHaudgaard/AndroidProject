@@ -1,11 +1,17 @@
 package com.example.mathias.helloworld;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -39,12 +45,35 @@ public class MapsActivity extends FragmentActivity {
     private int minUpdateDist = 0;
     private ArrayList<Marker> markerList = new ArrayList<Marker>();
     private int activateBluetoothRange = 100;
+    private NotificationManager mNotificationManager;
+    private int notificationId = 1;
+    private int TOAST_OPTION = 0;
+    private int NOTiFICATION_OPTION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+    }
+
+    protected void displayNotification(){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.setContentTitle("Treasure within sigth!");
+        mBuilder.setContentText("Or maybe i'm wrong arrgh");
+        mBuilder.setTicker("yoho, yoho. A pirate life for me!");
+        mBuilder.setSmallIcon(R.drawable.ic_launcher_web);
+
+        Intent resultIntent = new Intent(this,HomeActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(HomeActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_ONE_SHOT);
+
+        mBuilder.setContentIntent(pendingIntent);
+
+        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(notificationId, mBuilder.build());
     }
 
     @Override
@@ -86,6 +115,7 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
+        Log.d("setup", "Doing setup");
         //mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker").snippet("Snippet"));
         //Dummy marker?
 
@@ -105,7 +135,10 @@ public class MapsActivity extends FragmentActivity {
         //Den beholder vi simpelthen bare og dropper at checke efter noget.
 
         //tjekker om myLocation = null
-        if (myLocation == null) return;
+        if (myLocation == null) {
+            Log.d("location", "null");
+            return;
+        }
 
         // set map type
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -136,7 +169,7 @@ public class MapsActivity extends FragmentActivity {
         updateServerPosition();
 
         //Get other users position from server
-        updateOtherUsers();
+        updateOtherUsers(TOAST_OPTION);
 
     }
 
@@ -159,7 +192,7 @@ public class MapsActivity extends FragmentActivity {
                     mLatitude = location.getLatitude();
                     mLongitude = location.getLongitude();
                     updateServerPosition();
-                    updateOtherUsers();
+                    updateOtherUsers(TOAST_OPTION);
                 }
                 @Override
                 public void onStatusChanged(String s, int i, Bundle bundle) {}
@@ -228,7 +261,7 @@ public class MapsActivity extends FragmentActivity {
         return true;
     }
 
-    private boolean updateOtherUsers() {
+    private boolean updateOtherUsers(final int popupOption) {
         String req_tag = "req_get_position";
 
         StringRequest req = new StringRequest(Request.Method.POST,
@@ -262,9 +295,12 @@ public class MapsActivity extends FragmentActivity {
                                     Context context = getApplicationContext();
                                     CharSequence text = "Someone is in range!! Maybe you can steal treasure!";
                                     int duration = Toast.LENGTH_SHORT;
-
+                                    if(popupOption == TOAST_OPTION){
                                     Toast toast = Toast.makeText(context, text, duration);
                                     toast.show();
+                                    } else if(popupOption == NOTiFICATION_OPTION){
+                                        displayNotification();
+                                    }
                                 }
 
 
@@ -325,5 +361,10 @@ public class MapsActivity extends FragmentActivity {
             }
         }
         return false;
+    }
+
+    protected void onPause(){
+        updateOtherUsers(NOTiFICATION_OPTION);
+        super.onPause();
     }
 }
