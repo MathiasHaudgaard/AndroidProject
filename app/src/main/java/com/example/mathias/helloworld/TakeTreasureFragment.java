@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PagesFragment extends Fragment {
+public class TakeTreasureFragment extends Fragment {
 
 
 
@@ -46,12 +47,12 @@ public class PagesFragment extends Fragment {
     /*IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
     registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy*/
 
-    public PagesFragment(){}
+    public TakeTreasureFragment(){}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_pages, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_take_treasure, container, false);
         item = new ArrayList<>();
 
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -84,10 +85,8 @@ public class PagesFragment extends Fragment {
                 String index = (String) parent.getItemAtPosition(position);
                 String MACAdress = "default";
                 for (int i = 0; i < index.length(); i++) {
-                    if (index.charAt(i) == ':') {
-                        if (index.charAt(i + 1) == ':') {
-                            MACAdress = index.substring(i + 2, index.length());
-                        }
+                    if (index.charAt(i) == '(') {
+                        MACAdress = index.substring(i + 1, index.length()-1);
                     }
                 }
                 Log.d("lol", MACAdress);
@@ -117,7 +116,7 @@ public class PagesFragment extends Fragment {
                             if (!error) {
                                 String name = JResponse.getString("name");
                                 int treasures = JResponse.getInt("treasure");
-                                mArrayAdapter.add(name + " " + treasures + "::" + address);
+                                mArrayAdapter.add(name + "\nNr of treasures " + treasures + "\n(" + address + ")");
                             }
                             //Shows an error if we couldn't login and prints the error message from server
                             //TODO don't show the direct message but write a custom error message
@@ -136,7 +135,7 @@ public class PagesFragment extends Fragment {
             //only does it, if there's a network error, not login error
             public void onErrorResponse(VolleyError error) {
                 Log.e("Bluetooth", "Bluetooth error: " + error.getMessage());
-                Toast.makeText(PagesFragment.this.getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG)
+                Toast.makeText(TakeTreasureFragment.this.getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG)
                         .show();
             }
         })  {
@@ -152,7 +151,7 @@ public class PagesFragment extends Fragment {
         //add tag to request
         req.addMarker(req_tag);
         //Adding request to request queue
-        NetworkSingleton.getInstance(PagesFragment.this.getActivity().getApplicationContext()).addToRequestQueue(req);
+        NetworkSingleton.getInstance(TakeTreasureFragment.this.getActivity().getApplicationContext()).addToRequestQueue(req);
         return true;
     }
 
@@ -172,10 +171,11 @@ public class PagesFragment extends Fragment {
                             JSONObject JResponse = new JSONObject(response);
                             boolean error = JResponse.getBoolean("error");
                             if (!error) {
+                                MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(),R.raw.getcoin);
+                                mediaPlayer.start();
                                 Context context = getActivity().getApplicationContext();
                                 CharSequence text = "Congratz Matey! You have taken one of the treasures!";
                                 int duration = Toast.LENGTH_SHORT;
-
                                 Toast toast = Toast.makeText(context, text, duration);
                                 toast.show();
 
@@ -184,7 +184,7 @@ public class PagesFragment extends Fragment {
                             //TODO don't show the direct message but write a custom error message
                             else{
                                 Log.e("Bluetooth", "Bluetooth error: " + response);
-                                Toast.makeText(PagesFragment.this.getActivity().getApplicationContext(), response, Toast.LENGTH_LONG)
+                                Toast.makeText(TakeTreasureFragment.this.getActivity().getApplicationContext(), response, Toast.LENGTH_LONG)
                                         .show();
                             }
 
@@ -198,7 +198,7 @@ public class PagesFragment extends Fragment {
             //only does it, if there's a network error, not login error
             public void onErrorResponse(VolleyError error) {
                 Log.e("Bluetooth", "Bluetooth error: " + error.getMessage());
-                Toast.makeText(PagesFragment.this.getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG)
+                Toast.makeText(TakeTreasureFragment.this.getActivity().getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG)
                         .show();
             }
         })  {
@@ -215,7 +215,7 @@ public class PagesFragment extends Fragment {
         //add tag to request
         req.addMarker(req_tag);
         //Adding request to request queue
-        NetworkSingleton.getInstance(PagesFragment.this.getActivity().getApplicationContext()).addToRequestQueue(req);
+        NetworkSingleton.getInstance(TakeTreasureFragment.this.getActivity().getApplicationContext()).addToRequestQueue(req);
         return true;
     }
 

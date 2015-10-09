@@ -7,23 +7,20 @@
         android:id="@+id/txtLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:textSize="16dp"
-        android:text="Find Treasure"/>
+        android:text="Press the Treasure Map!"
+        android:layout_marginTop="55dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
-    <ImageView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtLabel"
-        android:src="@mipmap/ic_people"
+    <ImageButton
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:id="@+id/picView"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/picView"
-        android:text="Enter Treasure Map"
-        android:id="@+id/ToMapButton"/>
+        android:src="@drawable/treasure_map"
+        android:id="@+id/ToMapButton"
+        android:scaleType="fitXY"/>
 
 
 </RelativeLayout>
