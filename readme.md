@@ -7,11 +7,7 @@ Communicates with our servers running on Docker.
 
 Many thanks to:
 Google
-
-Volley
-
 CraigTP from StackOverflow
-
 Ping us if you feel left out!
 
 
