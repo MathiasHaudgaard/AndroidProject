@@ -5,7 +5,7 @@ Compiled for Android API 23/5.1.1
 
 Communicates with our servers running on Docker.
 
-Many thanks to:
+### Many thanks to:  
 Google  
 CraigTP from StackOverflow  
 Ping us if you feel left out!  
